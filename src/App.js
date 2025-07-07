@@ -72,7 +72,11 @@ export default function App() {
   };
 
   const startRecording = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 }, audio: true });
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: 1280, height: 720 },
+      audio: true,
+    });
+
     videoRef.current.srcObject = stream;
     setStream(stream);
     setRecording(true);
@@ -81,6 +85,7 @@ export default function App() {
     const chunks = [];
 
     recorder.ondataavailable = (e) => chunks.push(e.data);
+
     recorder.onstop = async () => {
       const blob = new Blob(chunks, { type: "video/mp4" });
       const file = new File([blob], "recorded-video.mp4", { type: "video/mp4" });
@@ -101,10 +106,10 @@ export default function App() {
     recorder.start();
     setMediaRecorder(recorder);
 
+    // Auto stop after 10 seconds
     setTimeout(() => {
       if (recorder.state === "recording") stopRecording();
-}, 10000); // stop after 10 seconds
-
+    }, 10000);
   };
 
   const stopRecording = () => {
@@ -118,14 +123,16 @@ export default function App() {
       <h1 style={{ color: "#a8326e" }}>💍 Wedding Media Upload</h1>
       <p>Upload or record photos & videos</p>
 
+      {/* Hidden Inputs */}
       <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple onChange={handleFileSelect} style={{ display: "none" }} />
       <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
       <input ref={videoCaptureRef} type="file" accept="video/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
 
+      {/* Action Buttons */}
       <div style={{ margin: "10px" }}>
         <button onClick={() => fileInputRef.current.click()} style={btnStyle}>📁 Upload from Gallery</button>
         <button onClick={() => cameraInputRef.current.click()} style={btnStyle}>📷 Take Photo</button>
-        <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>🎥 Record Video</button>
+        <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>📹 Record Video</button>
         {!recording ? (
           <button onClick={startRecording} style={btnStyle}>🎥 High-Quality Record</button>
         ) : (
@@ -136,6 +143,7 @@ export default function App() {
       {recording && <video ref={videoRef} autoPlay muted style={{ width: "100%", maxWidth: "400px", margin: "auto", borderRadius: "10px" }} />}
       {uploading && <p style={{ color: "orange" }}>📤 Uploading... Please wait</p>}
 
+      {/* Media Gallery */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "10px", marginTop: "20px" }}>
         {media.map((item, index) => (
           <div key={index}>
@@ -144,7 +152,9 @@ export default function App() {
             ) : (
               <>
                 <video src={item.url} controls style={{ width: "100%", borderRadius: "10px" }} />
-                <a href={item.url} download style={{ display: "inline-block", marginTop: "5px", fontSize: "14px", color: "#a8326e" }}>⬇ Download Video</a>
+                <a href={item.url} download style={{ display: "inline-block", marginTop: "5px", fontSize: "14px", color: "#a8326e" }}>
+                  ⬇ Download Video
+                </a>
               </>
             )}
           </div>

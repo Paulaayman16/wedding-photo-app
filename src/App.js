@@ -100,6 +100,11 @@ export default function App() {
 
     recorder.start();
     setMediaRecorder(recorder);
+
+    setTimeout(() => {
+      if (recorder.state === "recording") stopRecording();
+}, 10000); // stop after 10 seconds
+
   };
 
   const stopRecording = () => {

@@ -6,15 +6,12 @@ const resizeImage = (file, maxWidth) => {
     const canvas = document.createElement("canvas");
     const reader = new FileReader();
 
-    reader.onload = (e) => {
-      img.src = e.target.result;
-    };
+    reader.onload = (e) => (img.src = e.target.result);
 
     img.onload = () => {
       const scale = maxWidth / img.width;
       canvas.width = maxWidth;
       canvas.height = img.height * scale;
-
       const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
@@ -28,102 +25,89 @@ const resizeImage = (file, maxWidth) => {
 };
 
 export default function App() {
-  const [images, setImages] = useState([]);
+  const [media, setMedia] = useState([]);
   const [uploading, setUploading] = useState(false);
 
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
+  const videoCaptureRef = useRef(null);
 
   const handleFileSelect = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+    const files = Array.from(event.target.files);
+    if (!files.length) return;
 
     setUploading(true);
-    const resized = await resizeImage(file, 1024);
+    const uploaded = [];
 
-    const formData = new FormData();
-    formData.append("file", resized);
-    formData.append("upload_preset", "guestupload123");
+    for (let file of files) {
+      let uploadFile = file;
+      if (file.type.startsWith("image/")) {
+        uploadFile = await resizeImage(file, 1024);
+      }
 
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dc29mfwit/image/upload",
-      {
+      const formData = new FormData();
+      formData.append("file", uploadFile);
+      formData.append("upload_preset", "guestupload123");
+
+      const res = await fetch("https://api.cloudinary.com/v1_1/dc29mfwit/auto/upload", {
         method: "POST",
         body: formData,
-      }
-    );
+      });
 
-    const data = await response.json();
+      const data = await res.json();
+      uploaded.push({ url: data.secure_url, type: file.type });
+    }
+
     setUploading(false);
-    setImages((prev) => [data.secure_url, ...prev]);
+    setMedia((prev) => [...uploaded, ...prev]);
   };
 
   return (
-    <div style={{ padding: "2rem", textAlign: "center", fontFamily: "sans-serif", backgroundColor: "#fff0f6" }}>
-      <h1 style={{ color: "#a8326e" }}>💍 Wedding Photo Upload</h1>
-      <p>Upload your special moments!</p>
+    <div style={{ padding: "2rem", fontFamily: "sans-serif", background: "#fff0f6", textAlign: "center" }}>
+      <h1 style={{ color: "#a8326e" }}>💍 Wedding Media Upload</h1>
+      <p>Take or upload photos & videos</p>
 
-      {/* Hidden Inputs */}
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFileSelect}
-        style={{ display: "none" }}
-      />
+      {/* Hidden inputs */}
+      <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple onChange={handleFileSelect} style={{ display: "none" }} />
+      <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
+      <input ref={videoCaptureRef} type="file" accept="video/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
 
-      <input
-        type="file"
-        accept="image/*"
-        capture="environment"
-        ref={cameraInputRef}
-        onChange={handleFileSelect}
-        style={{ display: "none" }}
-      />
+      {/* Action buttons */}
+      <div style={{ margin: "10px" }}>
+        <button onClick={() => fileInputRef.current.click()} style={btnStyle}>📁 Upload from Gallery</button>
+        <button onClick={() => cameraInputRef.current.click()} style={btnStyle}>📷 Take Photo</button>
+        <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>🎥 Record Video</button>
+      </div>
 
-      {/* Buttons */}
-      <button
-        onClick={() => fileInputRef.current.click()}
-        style={{
-          margin: "10px",
-          padding: "10px 20px",
-          backgroundColor: "#a8326e",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer"
-        }}
-      >
-        📁 Upload Photo
-      </button>
+      {uploading && <p style={{ color: "orange" }}>📤 Uploading... Please wait</p>}
 
-      <button
-        onClick={() => cameraInputRef.current.click()}
-        style={{
-          margin: "10px",
-          padding: "10px 20px",
-          backgroundColor: "#ff5c8a",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer"
-        }}
-      >
-        📷 Open Camera
-      </button>
-
-      {uploading && <p style={{ color: "#ff9900" }}>Uploading... Please wait</p>}
-
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-        gap: "10px",
-        marginTop: "20px"
-      }}>
-        {images.map((url, index) => (
-          <img key={index} src={url} alt={`Uploaded ${index}`} style={{ width: "100%", borderRadius: "10px" }} />
+      {/* Media grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "10px", marginTop: "20px" }}>
+        {media.map((item, index) => (
+          <div key={index}>
+            {item.type.startsWith("image/") ? (
+              <img src={item.url} alt={`Uploaded ${index}`} style={{ width: "100%", borderRadius: "10px" }} />
+            ) : (
+              <>
+                <video src={item.url} controls style={{ width: "100%", borderRadius: "10px" }} />
+                <a href={item.url} download style={{ display: "inline-block", marginTop: "5px", fontSize: "14px", color: "#a8326e" }}>
+                  ⬇ Download Video
+                </a>
+              </>
+            )}
+          </div>
         ))}
       </div>
     </div>
   );
 }
+
+const btnStyle = {
+  margin: "10px",
+  padding: "10px 15px",
+  backgroundColor: "#a8326e",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+};

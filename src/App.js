@@ -49,10 +49,16 @@ export default function App() {
       formData.append("file", uploadFile);
       formData.append("upload_preset", "guestupload123");
 
-      const res = await fetch("https://api.cloudinary.com/v1_1/dc29mfwit/auto/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+  file.type.startsWith("video/")
+    ? "https://api.cloudinary.com/v1_1/dc29mfwit/video/upload"
+    : "https://api.cloudinary.com/v1_1/dc29mfwit/image/upload",
+  {
+    method: "POST",
+    body: formData,
+  }
+);
+
 
       const data = await res.json();
       uploaded.push({ url: data.secure_url, type: file.type });

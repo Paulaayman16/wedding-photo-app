@@ -27,10 +27,14 @@ const resizeImage = (file, maxWidth) => {
 export default function App() {
   const [media, setMedia] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [stream, setStream] = useState(null);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
 
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
   const videoCaptureRef = useRef(null);
+  const videoRef = useRef(null);
 
   const handleFileSelect = async (event) => {
     const files = Array.from(event.target.files);
@@ -50,15 +54,14 @@ export default function App() {
       formData.append("upload_preset", "guestupload123");
 
       const res = await fetch(
-  file.type.startsWith("video/")
-    ? "https://api.cloudinary.com/v1_1/dc29mfwit/video/upload"
-    : "https://api.cloudinary.com/v1_1/dc29mfwit/image/upload",
-  {
-    method: "POST",
-    body: formData,
-  }
-);
-
+        file.type.startsWith("video/")
+          ? "https://api.cloudinary.com/v1_1/dc29mfwit/video/upload"
+          : "https://api.cloudinary.com/v1_1/dc29mfwit/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await res.json();
       uploaded.push({ url: data.secure_url, type: file.type });
@@ -68,26 +71,66 @@ export default function App() {
     setMedia((prev) => [...uploaded, ...prev]);
   };
 
+  const startRecording = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 }, audio: true });
+    videoRef.current.srcObject = stream;
+    setStream(stream);
+    setRecording(true);
+
+    const recorder = new MediaRecorder(stream);
+    const chunks = [];
+
+    recorder.ondataavailable = (e) => chunks.push(e.data);
+    recorder.onstop = async () => {
+      const blob = new Blob(chunks, { type: "video/mp4" });
+      const file = new File([blob], "recorded-video.mp4", { type: "video/mp4" });
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "guestupload123");
+
+      const res = await fetch("https://api.cloudinary.com/v1_1/dc29mfwit/video/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      setMedia((prev) => [{ url: data.secure_url, type: "video/mp4" }, ...prev]);
+    };
+
+    recorder.start();
+    setMediaRecorder(recorder);
+  };
+
+  const stopRecording = () => {
+    mediaRecorder.stop();
+    stream.getTracks().forEach((track) => track.stop());
+    setRecording(false);
+  };
+
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif", background: "#fff0f6", textAlign: "center" }}>
       <h1 style={{ color: "#a8326e" }}>💍 Wedding Media Upload</h1>
-      <p>Take or upload photos & videos</p>
+      <p>Upload or record photos & videos</p>
 
-      {/* Hidden inputs */}
       <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple onChange={handleFileSelect} style={{ display: "none" }} />
       <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
       <input ref={videoCaptureRef} type="file" accept="video/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
 
-      {/* Action buttons */}
       <div style={{ margin: "10px" }}>
         <button onClick={() => fileInputRef.current.click()} style={btnStyle}>📁 Upload from Gallery</button>
         <button onClick={() => cameraInputRef.current.click()} style={btnStyle}>📷 Take Photo</button>
         <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>🎥 Record Video</button>
+        {!recording ? (
+          <button onClick={startRecording} style={btnStyle}>🎥 High-Quality Record</button>
+        ) : (
+          <button onClick={stopRecording} style={{ ...btnStyle, backgroundColor: "red" }}>🛑 Stop Recording</button>
+        )}
       </div>
 
+      {recording && <video ref={videoRef} autoPlay muted style={{ width: "100%", maxWidth: "400px", margin: "auto", borderRadius: "10px" }} />}
       {uploading && <p style={{ color: "orange" }}>📤 Uploading... Please wait</p>}
 
-      {/* Media grid */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "10px", marginTop: "20px" }}>
         {media.map((item, index) => (
           <div key={index}>
@@ -96,9 +139,7 @@ export default function App() {
             ) : (
               <>
                 <video src={item.url} controls style={{ width: "100%", borderRadius: "10px" }} />
-                <a href={item.url} download style={{ display: "inline-block", marginTop: "5px", fontSize: "14px", color: "#a8326e" }}>
-                  ⬇ Download Video
-                </a>
+                <a href={item.url} download style={{ display: "inline-block", marginTop: "5px", fontSize: "14px", color: "#a8326e" }}>⬇ Download Video</a>
               </>
             )}
           </div>

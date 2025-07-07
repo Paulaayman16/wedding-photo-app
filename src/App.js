@@ -30,7 +30,6 @@ export default function App() {
   const [recording, setRecording] = useState(false);
   const [stream, setStream] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [useBasicRecorder, setUseBasicRecorder] = useState(true);
 
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
@@ -114,15 +113,6 @@ export default function App() {
       <h1 style={{ color: "#a8326e" }}>💍 Wedding Media Upload</h1>
       <p>Upload, Take, or Record Photos & Videos</p>
 
-      <label>
-        <input
-          type="checkbox"
-          checked={useBasicRecorder}
-          onChange={(e) => setUseBasicRecorder(e.target.checked)}
-        />
-        Use Basic Recording (Mobile Safe)
-      </label>
-
       <input ref={fileInputRef} type="file" accept="image/*,video/*" multiple onChange={handleFileSelect} style={{ display: "none" }} />
       <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
       <input ref={videoCaptureRef} type="file" accept="video/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
@@ -130,14 +120,11 @@ export default function App() {
       <div style={{ margin: "10px" }}>
         <button onClick={() => fileInputRef.current.click()} style={btnStyle}>📁 Upload from Gallery</button>
         <button onClick={() => cameraInputRef.current.click()} style={btnStyle}>📷 Take Photo</button>
-        {useBasicRecorder ? (
-          <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>🎥 Record Video</button>
+        <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>🎥 Record Video</button>
+        {!recording ? (
+          <button onClick={startRecording} style={btnStyle}>📹 Start Recording</button>
         ) : (
-          !recording ? (
-            <button onClick={startRecording} style={btnStyle}>🎥 High-Quality Record</button>
-          ) : (
-            <button onClick={stopRecording} style={{ ...btnStyle, backgroundColor: "red" }}>🛑 Stop Recording</button>
-          )
+          <button onClick={stopRecording} style={{ ...btnStyle, backgroundColor: "red" }}>🛑 Stop Recording</button>
         )}
       </div>
 

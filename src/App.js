@@ -112,7 +112,7 @@ export default function App() {
     marginBottom: "0.5rem",
   }}
 >
-  Ramez & Maria Big Moments 💍♥
+  Ramez & Maria Big Moments no 💍♥
 </h1>
 
       <p>Upload, Take, or Record Photos & Videos</p>

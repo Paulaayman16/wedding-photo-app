@@ -1,3 +1,4 @@
+import "./App.css";
 import React, { useRef, useState } from "react";
 
 const resizeImage = (file, maxWidth) => {
@@ -66,7 +67,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif", background: "#fff0f6", textAlign: "center" }}>
+      <div style={{ padding: "2rem", textAlign: "center" }}>
       <h1 style={{ color: "#a8326e" }}>Ramez & Maria Big Moments 💍♥</h1>
       <p>Upload, Take, or Record Photos & Videos</p>
 

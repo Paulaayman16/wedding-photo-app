@@ -103,6 +103,7 @@ export default function App() {
     minHeight: "100vh",
     padding: "1rem",
     textAlign: "center",
+    marginTop: "none"
   }}>
 <h1
   style={{

@@ -76,8 +76,8 @@ export default function App() {
     backgroundImage: `url(${process.env.PUBLIC_URL + '/bg2.jpg'})`,
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    minHeight: "100vh",
+    backgroundPosition: "top center",
+    minHeight: "100dvh",
   }}
 >
   {/* 🆕 Add this overlay directly inside the div */}

@@ -74,7 +74,7 @@ export default function App() {
     textAlign: "center",
     color: "#6a1b9a",
     backgroundImage: `url(${process.env.PUBLIC_URL + '/bg2.jpg'})`,
-    backgroundSize: "cover",
+    backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     minHeight: "100vh",
@@ -93,7 +93,17 @@ export default function App() {
     }}
   />
 
-<div style={{ position: "relative", zIndex: 1 }}>
+<div style={{
+    position: "relative",
+    zIndex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "100vh",
+    padding: "1rem",
+    textAlign: "center",
+  }}>
 <h1
   style={{
     fontSize: window.innerWidth < 600 ? "1.4rem" : "2.2rem",
@@ -114,13 +124,13 @@ export default function App() {
 
       {/* Buttons */}
       <div  style={{
-      margin: "10px auto",             // 👈 auto horizontal margin ensures centering
+      width: "100%",              // ✅ ensures full width even if background is narrow
       display: "flex",
       justifyContent: "center",
-      alignItems: "center",            // 👈 vertical alignment
+      alignItems: "center",
       flexWrap: "wrap",
       gap: "10px",
-      maxWidth: "100%",                // 👈 prevents overflow
+      marginTop: "10px",
     }}>
         <button onClick={() => fileInputRef.current.click()} style={btnStyle}>📁 Upload from Gallery</button>
         <button onClick={() => cameraInputRef.current.click()} style={btnStyle}>📷 Take Photo</button>

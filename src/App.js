@@ -67,20 +67,21 @@ export default function App() {
   };
 
   return (
-      <div
-        style={{
-          padding: "2rem",
-          textAlign: "center",
-          minHeight: "100vh",
-          backgroundImage: "url('./bg.jpg')",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center center",
-          backgroundAttachment: "fixed",
-          fontFamily: "sans-serif",
-        }}
-      >
-      <h1 style={{ color: "#a8326e" }}>Ramez & Maria Big Moments 💍♥</h1>
+<div
+  style={{
+    padding: "2rem",
+    textAlign: "center",
+    color: "#6a1b9a", // Purple font color
+    backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.jpg'})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    minHeight: "100vh",
+  }}
+>
+
+
+<h1>Ramez & Maria Big Moments 💍♥</h1>
       <p>Upload, Take, or Record Photos & Videos</p>
 
       {/* Hidden Inputs */}
@@ -121,7 +122,7 @@ export default function App() {
 const btnStyle = {
   margin: "10px",
   padding: "10px 15px",
-  backgroundColor: "#a8326e",
+  backgroundColor: "#6a1b9a",
   color: "white",
   border: "none",
   borderRadius: "8px",

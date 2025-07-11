@@ -74,7 +74,7 @@ export default function App() {
     textAlign: "center",
     color: "#6a1b9a",
     backgroundImage: `url(${process.env.PUBLIC_URL + '/bg2.jpg'})`,
-    backgroundSize: "contain",
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     minHeight: "100vh",
@@ -113,7 +113,15 @@ export default function App() {
       <input ref={videoCaptureRef} type="file" accept="video/*" capture="environment" onChange={handleFileSelect} style={{ display: "none" }} />
 
       {/* Buttons */}
-      <div style={{ margin: "10px" }}>
+      <div  style={{
+      margin: "10px auto",             // 👈 auto horizontal margin ensures centering
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",            // 👈 vertical alignment
+      flexWrap: "wrap",
+      gap: "10px",
+      maxWidth: "100%",                // 👈 prevents overflow
+    }}>
         <button onClick={() => fileInputRef.current.click()} style={btnStyle}>📁 Upload from Gallery</button>
         <button onClick={() => cameraInputRef.current.click()} style={btnStyle}>📷 Take Photo</button>
         <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>🎥 Record Video</button>

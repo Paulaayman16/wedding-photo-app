@@ -1,8 +1,10 @@
-/* App.css */
 body {
-  background-image: url("/bg.jpg"); /* Leading slash is important */
+  background-image: url('bg.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }

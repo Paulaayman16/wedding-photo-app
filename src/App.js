@@ -120,11 +120,11 @@ export default function App() {
 }
 
 const btnStyle = {
-  margin: "10px",
-  padding: "10px 15px",
+  margin: "8px",
+  padding: "8px 12px",
   backgroundColor: "#6a1b9a",
   color: "white",
   border: "none",
-  borderRadius: "8px",
+  borderRadius: "6px",
   cursor: "pointer",
 };

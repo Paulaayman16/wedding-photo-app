@@ -73,7 +73,7 @@ export default function App() {
     padding: "2rem",
     textAlign: "center",
     color: "#6a1b9a",
-    backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.jpg'})`,
+    backgroundImage: `url(${process.env.PUBLIC_URL + '/bg2.jpg'})`,
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -98,7 +98,7 @@ export default function App() {
   style={{
     fontSize: window.innerWidth < 600 ? "1.4rem" : "2.2rem",
     fontWeight: "600",
-    marginTop: "2rem",   // 👈 added this
+    marginTop: window.innerWidth < 600 ? "0.5rem" : "2rem",  // 👈 added this
     marginBottom: "0.5rem",
   }}
 >

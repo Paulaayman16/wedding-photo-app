@@ -69,18 +69,31 @@ export default function App() {
   return (
 <div
   style={{
+    position: "relative", // 🆕 needed to contain overlay
     padding: "2rem",
     textAlign: "center",
-    color: "#6a1b9a", // Purple font color
+    color: "#6a1b9a",
     backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.jpg'})`,
-    backgroundSize: "cover",
+    backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     minHeight: "100vh",
   }}
 >
+  {/* 🆕 Add this overlay directly inside the div */}
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "rgba(255,255,255,0.7)", // semi-transparent white
+      zIndex: 0,
+    }}
+  />
 
-
+<div style={{ position: "relative", zIndex: 1 }}>
 <h1
   style={{
     fontSize: window.innerWidth < 600 ? "1.4rem" : "2.2rem",
@@ -105,7 +118,7 @@ export default function App() {
         <button onClick={() => cameraInputRef.current.click()} style={btnStyle}>📷 Take Photo</button>
         <button onClick={() => videoCaptureRef.current.click()} style={btnStyle}>🎥 Record Video</button>
       </div>
-
+</div>
       {uploading && <p style={{ color: "orange" }}>📤 Uploading... Please wait</p>}
 
       {/* Media Preview */}

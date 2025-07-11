@@ -67,7 +67,19 @@ export default function App() {
   };
 
   return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
+      <div
+        style={{
+          padding: "2rem",
+          textAlign: "center",
+          minHeight: "100vh",
+          backgroundImage: "url('./bg.jpg')",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+          backgroundAttachment: "fixed",
+          fontFamily: "sans-serif",
+        }}
+      >
       <h1 style={{ color: "#a8326e" }}>Ramez & Maria Big Moments 💍♥</h1>
       <p>Upload, Take, or Record Photos & Videos</p>
 

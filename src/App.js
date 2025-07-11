@@ -81,7 +81,15 @@ export default function App() {
 >
 
 
-<h1>Ramez & Maria Big Moments 💍♥</h1>
+<h1
+  style={{
+    fontSize: window.innerWidth < 600 ? "1.4rem" : "2.2rem",
+    fontWeight: "600",
+    marginBottom: "0.5rem",
+  }}
+>
+  Ramez & Maria Big Moments 💍♥
+</h1>
       <p>Upload, Take, or Record Photos & Videos</p>
 
       {/* Hidden Inputs */}

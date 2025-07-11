@@ -67,7 +67,7 @@ export default function App() {
 
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif", background: "#fff0f6", textAlign: "center" }}>
-      <h1 style={{ color: "#a8326e" }}>💍 Wedding Media Upload</h1>
+      <h1 style={{ color: "#a8326e" }}>Ramez & Maria Big Moments 💍♥</h1>
       <p>Upload, Take, or Record Photos & Videos</p>
 
       {/* Hidden Inputs */}

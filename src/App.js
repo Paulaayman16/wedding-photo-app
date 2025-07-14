@@ -237,3 +237,7 @@ const btnStyle = {
   borderRadius: "6px",
   cursor: "pointer",
 };
+
+<h1 style={{ fontFamily: 'Great Vibes, cursive' }}>
+  Ramez & Maria
+</h1>

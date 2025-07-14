@@ -240,6 +240,6 @@ const btnStyle = {
   cursor: "pointer",
 };
 
-<h1 style={{ fontFamily: 'Sweet Gentle' }}>
+<h1 style={{ fontFamily: 'Calinastiya demo' }}>
   Ramez & Maria Big Moments 💍♥
 </h1>

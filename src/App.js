@@ -109,7 +109,6 @@ export default function App() {
       >
      <h1
   style={{
-    fontFamily: "'Sweet Gentle', cursive",
     fontSize: window.innerWidth < 600 ? "1.4rem" : "2.2rem",
     fontWeight: "600",
     marginTop: window.innerWidth < 600 ? "0.5rem" : "2rem",
@@ -240,7 +239,4 @@ const btnStyle = {
   cursor: "pointer",
 };
 
-<h1 style={{ fontFamily: 'Bickham Script Pro Semibold, cursive' }}>
-  Ramez & Maria Big Moments 💍♥
-</h1>
 

@@ -231,9 +231,10 @@ export default function App() {
 
 const btnStyle = {
   margin: "8px",
-  padding: "8px 12px",backgroundColor: "transparent",     // no fill
-  color: "#6a1b9a",                   // purple text
-  border: "2px solid #6a1b9a",        // purple border
+  padding: "8px 12px",
+  backgroundColor: "#6a1b9a",
+  color: "white",
+  border: "none",
   borderRadius: "0px",
   cursor: "pointer",
 };

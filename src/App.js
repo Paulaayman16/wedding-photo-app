@@ -107,16 +107,18 @@ export default function App() {
           textAlign: "center",
         }}
       >
-        <h1
-          style={{
-            fontSize: window.innerWidth < 600 ? "1.4rem" : "2.2rem",
-            fontWeight: "600",
-            marginTop: window.innerWidth < 600 ? "0.5rem" : "2rem",
-            marginBottom: "0.5rem",
-          }}
-        >
-          Ramez & Maria Big Moments 💍♥
-        </h1>
+     <h1
+  style={{
+    fontFamily: "'Sweet Gentle', cursive",
+    fontSize: window.innerWidth < 600 ? "1.4rem" : "2.2rem",
+    fontWeight: "600",
+    marginTop: window.innerWidth < 600 ? "0.5rem" : "2rem",
+    marginBottom: "0.5rem",
+  }}
+>
+  Ramez & Maria Big Moments 💍♥
+</h1>
+
 
         <p>Upload, Take, or Record Photos & Videos</p>
 
@@ -237,7 +239,3 @@ const btnStyle = {
   borderRadius: "6px",
   cursor: "pointer",
 };
-
-<h1 style={{ fontFamily: 'Great Vibes, cursive' }}>
-  Ramez & Maria
-</h1>

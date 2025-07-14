@@ -1,11 +1,3 @@
-@font-face {
-  font-family: 'Sweet Gentle';
-  src: url('/fonts/SweetGentle.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-
 .App {
   text-align: center;
 }

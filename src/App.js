@@ -240,6 +240,7 @@ const btnStyle = {
   cursor: "pointer",
 };
 
-<h1 style={{ fontFamily: 'Bickham Script Pro Semibold' }}>
+<h1 style={{ fontFamily: 'Bickham Script Pro Semibold, cursive' }}>
   Ramez & Maria Big Moments 💍♥
 </h1>
+
